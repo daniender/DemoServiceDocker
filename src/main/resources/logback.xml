@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration>
+<Configuration>
+
+	<Property name="log-path" value="./logs/demo/" />
+
+	<Appender name="console-log"
+		class="ch.qos.logback.core.ConsoleAppender">
+		<encoder>
+			<pattern>%d{yyyy-MM-dd HH:mm:ss} [%t] %-5level %c{1} - %msg%n</pattern>
+		</encoder>
+		<filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+			<level>INFO</level>
+		</filter>
+	</Appender>
+
+	<Appender name="trace-log"
+		class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>${log-path}trace-log.log</file>
+		<rollingPolicy
+			class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+			<!-- daily rollover defined by %d{} policy -->
+			<fileNamePattern>${log-path}history/trace-log.%d{yyyy-MM-dd}-%i.log.zip</fileNamePattern>
+			<maxFileSize>300MB</maxFileSize>
+			<maxHistory>30</maxHistory>
+		</rollingPolicy>
+		<encoder>
+			<pattern>%d{yyyy-MM-dd HH:mm:ss} [%t] %-5level %c{1} - %msg%n</pattern>
+		</encoder>
+		<filter class="ch.qos.logback.classic.filter.LevelFilter">
+			<level>INFO</level>
+			<onMatch>ACCEPT</onMatch>
+        	<onMismatch>DENY</onMismatch>
+		</filter>
+	</Appender>
+
+	<Appender name="error-log"
+		class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>${log-path}error-log.log</file>
+		<rollingPolicy
+			class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+			<!-- daily rollover defined by %d{} policy -->
+			<fileNamePattern>${log-path}history/error-log.%d{yyyy-MM-dd}-%i.log.zip</fileNamePattern>
+			<maxFileSize>300MB</maxFileSize>
+			<maxHistory>30</maxHistory>
+		</rollingPolicy>
+		<encoder>
+			<pattern>%d{yyyy-MM-dd HH:mm:ss} [%t] %-5level %c{1} - %msg%n</pattern>
+		</encoder>
+		<filter class="ch.qos.logback.classic.filter.LevelFilter">
+			<level>ERROR</level>
+			<onMatch>ACCEPT</onMatch>
+        	<onMismatch>DENY</onMismatch>
+		</filter>
+	</Appender>
+
+	<Logger name="errorLog" level="error" additivity="false">
+		<appender-ref ref="error-log" />
+	</Logger>
+	<Logger name="con.ing.demo" level="info" additivity="false">
+		<appender-ref ref="trace-log" />
+	</Logger>
+
+	<Root>
+		<level value="info" />
+		<appender-ref ref="console-log" />
+		<appender-ref ref="trace-log" />
+	</Root>
+
+</Configuration>

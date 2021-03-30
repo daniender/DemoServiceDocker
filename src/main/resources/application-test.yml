@@ -1,0 +1,14 @@
+spring:
+  h2:
+    console:
+      enabled: true
+  application:
+    name: task-microservice
+  cloud:
+    discovery:
+      enabled: false
+    service-registry:
+      auto-registration:
+        enabled: false
+server:
+  port: '8080'

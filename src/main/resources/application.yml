@@ -1,0 +1,16 @@
+spring:
+  application:
+    name: task-microservice
+  h2:
+    console:
+      enabled: true
+
+#Tomcat Embedded Server Configuration
+server:
+  port: '8763'
+
+#Eureka Configuration Properties  
+eureka: 
+  client:
+    serviceUrl:
+      defaultZone: http://eureka-server:8761/eureka
